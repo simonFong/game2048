@@ -26,85 +26,6 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    public void up() {
-        List<Integer> integers1 = new ArrayList<>();
-        List<Integer> integers2 = new ArrayList<>();
-        List<Integer> integers3 = new ArrayList<>();
-        List<Integer> integers4 = new ArrayList<>();
-        for (int i = 0; i < mData.size(); i++) {
-            int value = mData.get(i).intValue();
-            int i1 = value % 4;
-            switch (i1) {
-                case 0:
-                    integers1.add(value);
-                    break;
-                case 1:
-                    integers2.add(value);
-                    break;
-                case 2:
-                    integers3.add(value);
-                    break;
-                case 3:
-                    integers4.add(value);
-                    break;
-            }
-        }
-        sort(calc(integers1));
-        sort(calc(integers2));
-        sort(calc(integers3));
-        sort(calc(integers4));
-
-
-    }
-
-    private List<Integer> sort(List<Integer> list) {
-        int i = 0;
-        while (i < list.size() - 1) {
-            Integer view1 = list.get(i);
-            if (view1 == 0) {
-                int j = i + 1;
-                while (j < list.size()) {
-                    Integer view2 = list.get(j);
-                    if (view2 == 0) {
-                        j++;
-                    } else {
-                        Collections.swap(list, i, j);
-                        break;
-                    }
-                }
-            }
-            i++;
-        }
-        return list;
-    }
-
-    private List<Integer> calc(List<Integer> list) {
-        int i = 0;
-        while (i < list.size() - 1) {
-            Integer view1 = list.get(i);
-            if (view1 == 0) {
-                i++;
-            } else {
-                int j = i + 1;
-                while (j < list.size()) {
-                    Integer view2 = list.get(j);
-                    if (view2 == 0) {
-                        j++;
-                    } else if (view1 == view2) {
-                        view1++;
-                        view2 = 0;
-                        i++;
-                        break;
-                    } else {
-                        i++;
-                        break;
-                    }
-                }
-
-            }
-        }
-        return list;
-    }
 
     @NonNull
     @Override
@@ -121,11 +42,50 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         int color = App.getInstance().getColor(R.color.colorAccent);
         switch (type) {
             case 0:
-                num = 2;
                 color = App.getInstance().getColor(R.color.colorAccent);
                 break;
             case 1:
+                num = 2;
+                color = App.getInstance().getColor(R.color.colorPrimary);
+                break;
+            case 2:
                 num = 4;
+                color = App.getInstance().getColor(R.color.colorPrimaryDark);
+                break;
+            case 3:
+                num = 8;
+                color = App.getInstance().getColor(R.color.colorPrimaryDark);
+                break;
+            case 4:
+                num = 16;
+                color = App.getInstance().getColor(R.color.colorPrimaryDark);
+                break;
+            case 5:
+                num = 32;
+                color = App.getInstance().getColor(R.color.colorPrimaryDark);
+                break;
+            case 6:
+                num = 64;
+                color = App.getInstance().getColor(R.color.colorPrimaryDark);
+                break;
+            case 7:
+                num = 128;
+                color = App.getInstance().getColor(R.color.colorPrimaryDark);
+                break;
+            case 8:
+                num = 256;
+                color = App.getInstance().getColor(R.color.colorPrimaryDark);
+                break;
+            case 9:
+                num = 512;
+                color = App.getInstance().getColor(R.color.colorPrimaryDark);
+                break;
+            case 10:
+                num = 1024;
+                color = App.getInstance().getColor(R.color.colorPrimaryDark);
+                break;
+            case 11:
+                num = 2048;
                 color = App.getInstance().getColor(R.color.colorPrimaryDark);
                 break;
         }

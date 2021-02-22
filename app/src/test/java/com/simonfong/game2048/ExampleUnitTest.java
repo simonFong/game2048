@@ -53,10 +53,10 @@ public class ExampleUnitTest {
         DataHelper.start(views);
         //        print(start, count);
 
-        List<Integer> start1 = DataHelper.start(views);
-        print(start1, count);
+        DataHelper.start(views);
+        print(views, count);
 
-        List<Integer> up = DataHelper.up(start1, count);
+        List<Integer> up = DataHelper.right(views, count);
         print(up, count);
 
     }
