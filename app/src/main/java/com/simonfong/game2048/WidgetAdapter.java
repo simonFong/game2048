@@ -1,5 +1,6 @@
 package com.simonfong.game2048;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,54 +41,9 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
         Integer type = mData.get(position);
         int num = 0;
         int color = App.getInstance().getColor(R.color.colorAccent);
-        switch (type) {
-            case 0:
-                color = App.getInstance().getColor(R.color.colorAccent);
-                break;
-            case 1:
-                num = 2;
-                color = App.getInstance().getColor(R.color.colorPrimary);
-                break;
-            case 2:
-                num = 4;
-                color = App.getInstance().getColor(R.color.colorPrimaryDark);
-                break;
-            case 3:
-                num = 8;
-                color = App.getInstance().getColor(R.color.colorPrimaryDark);
-                break;
-            case 4:
-                num = 16;
-                color = App.getInstance().getColor(R.color.colorPrimaryDark);
-                break;
-            case 5:
-                num = 32;
-                color = App.getInstance().getColor(R.color.colorPrimaryDark);
-                break;
-            case 6:
-                num = 64;
-                color = App.getInstance().getColor(R.color.colorPrimaryDark);
-                break;
-            case 7:
-                num = 128;
-                color = App.getInstance().getColor(R.color.colorPrimaryDark);
-                break;
-            case 8:
-                num = 256;
-                color = App.getInstance().getColor(R.color.colorPrimaryDark);
-                break;
-            case 9:
-                num = 512;
-                color = App.getInstance().getColor(R.color.colorPrimaryDark);
-                break;
-            case 10:
-                num = 1024;
-                color = App.getInstance().getColor(R.color.colorPrimaryDark);
-                break;
-            case 11:
-                num = 2048;
-                color = App.getInstance().getColor(R.color.colorPrimaryDark);
-                break;
+        if (type != 0) {
+            num = (int) Math.pow(2, type);
+            color = App.getInstance().getColor(R.color.colorPrimaryDark);
         }
         holder.viewBg.setBackgroundColor(color);
         holder.tvNum.setText("" + num);
@@ -109,6 +65,19 @@ public class WidgetAdapter extends RecyclerView.Adapter<WidgetAdapter.ViewHolder
             viewBg = (View) itemView.findViewById(R.id.view_bg);
             tvNum = itemView.findViewById(R.id.tv_num);
         }
+    }
+
+    public int getMaxPoint() {
+        int max = 0;
+        for (int i = 0; i < mData.size(); i++) {
+            Log.d("getMaxPoint","dafdsf="+mData.get(i));
+            int pow = (int) Math.pow(2, mData.get(i));
+            if (pow>max){
+                max = pow;
+            }
+        }
+        Log.d("getMaxPoint","max="+max);
+        return max;
     }
 
 }

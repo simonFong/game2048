@@ -4,10 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,7 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     private WidgetAdapter mWidgetAdapter;
     private List<Integer> mDatas;
-    private int mCount;
+    private TextView mTvMaxPoint;
+    private EditText mEtCount;
+    private int mCount = 4;
 
     //手指按下的点为(x1, y1)手指离开屏幕的点为(x2, y2)
     float x1 = 0;
@@ -25,21 +33,33 @@ public class MainActivity extends AppCompatActivity {
     float y1 = 0;
     float y2 = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mTvMaxPoint = findViewById(R.id.tv_max_point);
+        mTvMaxPoint.setText("历史最高分：" + DataHelper.getMaxPoint());
         findViewById(R.id.btn_reset).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initData();
+                finishGame();
             }
         });
+        mEtCount = findViewById(R.id.et_count);
         initData();
     }
 
+
     private void initData() {
-        mCount = 5;
+        String s = mEtCount.getText().toString();
+        if (!TextUtils.isEmpty(s)) {
+            mCount = Integer.valueOf(s);
+            if (mCount < 2 || mCount > 15) {
+                Toast.makeText(this, "请设置关卡为2-15", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
 
         RecyclerView recyclerview = findViewById(R.id.recyclerview);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, mCount);
@@ -89,8 +109,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
     public void touch(int touchevent) {
         switch (touchevent) {
             case 0:
@@ -108,8 +126,25 @@ public class MainActivity extends AppCompatActivity {
         }
         boolean start = DataHelper.start(mDatas);
         if (!start) {
-            Toast.makeText(this, "你真菜，游戏结束", Toast.LENGTH_LONG).show();
+            finishGame();
+            Toast.makeText(this, "你这菜鸡，游戏结束", Toast.LENGTH_LONG).show();
+
         }
         mWidgetAdapter.setNewData(mDatas);
+    }
+
+    private void finishGame() {
+        saveMaxPoint();
+        initData();
+    }
+
+    private void saveMaxPoint() {
+        int maxPoint = DataHelper.getMaxPoint();
+        int point = mWidgetAdapter.getMaxPoint();
+        if (maxPoint < point) {
+            DataHelper.saveMaxPoint(point);
+            mTvMaxPoint.setText("历史最高分：" + point);
+        }
+
     }
 }

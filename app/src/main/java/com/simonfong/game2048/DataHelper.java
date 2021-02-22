@@ -1,5 +1,8 @@
 package com.simonfong.game2048;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -144,5 +147,23 @@ public class DataHelper {
             }
         }
         System.out.println("----");
+    }
+
+    public static void saveMaxPoint(int point) {
+        //获取sharedPreferences对象
+        SharedPreferences sharedPreferences = App.getInstance().getSharedPreferences("game", Context.MODE_PRIVATE);
+        //获取editor对象
+        SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+        //存储键值对
+        editor.putInt("maxPoint", point);
+
+        //提交
+        editor.commit();//提交修改
+    }
+
+    public static int getMaxPoint() {
+        //获取sharedPreferences对象
+        SharedPreferences sharedPreferences = App.getInstance().getSharedPreferences("game", Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("maxPoint", 0);
     }
 }
